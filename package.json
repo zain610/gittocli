@@ -1,0 +1,20 @@
+{
+  "name": "gittocli",
+  "version": "1.0.0",
+  "description": "Explore Repositories on GitHub using the CLI",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.16.2",
+    "commander": "^2.19.0",
+    "inquirer": "^6.2.2",
+    "opn": "^5.4.0"
+  },
+  "bin": {
+    "gitto": "src/index.js"
+  }
+}
