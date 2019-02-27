@@ -42,7 +42,8 @@ program
     else {
       // if user doesnt, ask for a keyword
       getRepoName().then(response => {
-        fetchRepositories(response.RepoName) // fetch repo info from github api
+        console.log(response);
+        fetchRepositories(response.repoName) // fetch repo info from github api
           .then(response => {
             let data = parseData(response); //parse data
             printPretty(data).then(response =>
