@@ -4,7 +4,6 @@ function fetchRepositories(keyword) {
   params = {
     q: keyword
   };
-  let data = {};
   return axios
     .get("https://api.github.com/search/repositories", {
       params: params
