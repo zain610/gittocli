@@ -3,24 +3,27 @@
 const program = require("commander");
 const open = require("opn");
 
-const { menuOption, getRepoName } = require("./util/Prompt");
+const { getRepoName, printPretty } = require("./util/Prompt");
 const { fetchRepositories } = require("./util/Data");
 
 program.version("1.0");
 
 const parseData = rawData => {
-  let data = {};
+  let arr = [];
   rawData.forEach(repo => {
     const { id, name, html_url, watchers: stars } = repo;
-    console.log(id, name);
-    data[id] = {
+    const owner = repo.owner.login;
+    console.log(id, name, owner);
+    arr.push({
       id,
       name,
+      owner,
       html_url,
       stars
-    };
+    });
   });
-  return data;
+  return arr;
+  // return data;
 };
 
 program
@@ -28,19 +31,22 @@ program
   .description("Search for Repository using name")
   .action(keyword => {
     if (keyword)
+      // if user enters a keyword along with a command.
       fetchRepositories(keyword)
         .then(response => {
           // do something
-          let data = parseData(repo);
-          console.log(data);
+          let data = parseData(response); //parse data
+          // console.log(data);
+          printPretty(data).then(response => openRepoLink(response.repoOption));
         })
         .catch(err => console.log(err));
     else {
+      // if user doesnt, ask for a keyword
       getRepoName().then(response => {
         console.log(response.RepoName);
-        fetchRepositories(response.RepoName)
+        fetchRepositories(response.RepoName) // fetch repo info from github api
           .then(response => {
-            let data = parseData(response);
+            let data = parseData(response); //parse data
             console.log(data);
           })
           .catch(err => console.log(err));
@@ -48,9 +54,9 @@ program
     }
   });
 
-const openRepoLink = answer => {
-  console.log(answer);
-  open("http://google.com");
+const openRepoLink = link => {
+  console.log(link);
+  open(link);
   process.exit();
 };
 
