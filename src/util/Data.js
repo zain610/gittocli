@@ -7,17 +7,20 @@ function fetchRepositoriesByKeyword(keyword) {
   return axios
       .get("https://api.github.com/search/repositories", {
         params
-      })
+      } )
       .then(response => response.data.items);
 }
 function fetchRepositoriesByTag(tag) {
+  console.log('tag', tag)
   params = {
-    Accept: 'application/vnd.github.mercy-preview+json',
     q: tag
   }
+  headers = {
+    'Accept': 'application/vnd.github.mercy-preview+json',
+  }
   return axios.get("https://api.github.com/search/topics",
-      { params })
-      .then(response => console.log(response)).catch(err => console.log('err;',err.response))
+      { params, headers })
+      .then(response => response.data.items).catch(err => console.log(err.response))
 }
 
 module.exports = {

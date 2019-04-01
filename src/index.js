@@ -26,6 +26,20 @@ const parseData = rawData => {
     // return data;
 };
 
+const parseTagData = rawData => {
+    console.log('raw', rawData)
+    let arr = [];
+    rawData.forEach(repo => {
+        const {name, created_by } = repo;
+        arr.push({
+            name,
+            created_by,
+        });
+    });
+    return arr;
+    // return data;
+};
+
 program
     .command("search [keyword]")
     .description("Search for Repository using name")
@@ -46,9 +60,10 @@ program
                 fetchRepositories(response.repoName) // fetch repo info from github api
                     .then(response => {
                         let data = parseData(response); //parse data
-                        printPretty(data).then(response =>
-                            openRepoLink(response.repoOption)
-                        );
+                        printPretty(data)
+                        //     .then(response =>
+                        //     openRepoLink(response.repoOption)
+                        // );
                     })
                     .catch(err => console.log(err));
             });
@@ -65,7 +80,8 @@ program
             //fetch tags
             getTagName().then(response => {
                 fetchRepositoriesByTag(response.tagName).then(response => {
-                    let data = parseData(response);
+                    console.log(response)
+                    let data = parseTagData(response);
                     printPretty(data).then(response =>
                         openRepoLink(response.repoOption))
                 })
